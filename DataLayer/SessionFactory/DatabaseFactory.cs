@@ -20,12 +20,17 @@ namespace DataLayer.SessionFactory
 
         public void CreateDB()
         {
-            var config = Fluently.Configure()
-                .Database(
+            var config = new Configuration();
+
+            config = Fluently.Configure()
+           /*    .Database(
                 MsSqlConfiguration.MsSql2008.ConnectionString(c => c.FromConnectionStringWithKey("Default")).ShowSql())
                 .Mappings(
                 m => m.FluentMappings.AddFromAssemblyOf<CompanyMap>().AddFromAssemblyOf<UserMap>()
-                ).BuildConfiguration();
+                )*/.BuildConfiguration();
+
+
+
             Console.WriteLine("Database Generated");
             var exporter = new SchemaExport(config);
        //    exporter.Execute(true, false, true);
