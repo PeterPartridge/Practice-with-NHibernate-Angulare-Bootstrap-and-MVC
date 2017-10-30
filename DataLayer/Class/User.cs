@@ -24,9 +24,7 @@ namespace DataLayer.Class
             Vehicles = new List<Vehicle>();
             Trades = new List<Trade>();
             Works = new List<WorkOrder>();
-
-
-        }
+         }
 
         public virtual Guid Id { get; set; }
         public virtual string Title { get; set; }

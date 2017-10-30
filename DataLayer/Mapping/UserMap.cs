@@ -31,8 +31,8 @@ namespace DataLayer.Mapping
 
             References<Wage>(x => x.Wages).Cascade.SaveUpdate();
 
-            HasMany<Trade>(x => x.Trades)
-                        .Table("Trade");
+            HasManyToMany<Trade>(x => x.Trades).Table("TradeAndOperative").Cascade.SaveUpdate();
+
 
             HasMany<Vehicle>(x => x.Vehicles)
                          .Table("Vehicle").Cascade.All(); 

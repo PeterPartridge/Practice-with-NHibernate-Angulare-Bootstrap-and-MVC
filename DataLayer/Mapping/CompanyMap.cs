@@ -17,8 +17,9 @@ namespace DataLayer.Mapping
             Map(c => c.OfficePhone);
             Map(c => c.Contractor);
             Map(c => c.Supplier);
+            Map(c => c.MainCompany);
             Map(c => c.MobilePhone);
-
+            
             HasMany<CorprateAdress>(x => x.Adresses).Table("CorprateAdress").Cascade.SaveUpdate();
             HasMany<CorprateInsurance>(x => x.Insurances).Table("CorprateInsurance").Cascade.SaveUpdate();
             HasMany<User>(x => x.Operatrives).Table("Operative").Cascade.SaveUpdate();

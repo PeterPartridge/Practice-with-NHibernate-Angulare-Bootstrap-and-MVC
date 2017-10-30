@@ -11,7 +11,7 @@ namespace DataLayer.SessionFactory
     {
         private static User person;
         private static Vehicle Van;
-
+        private static Trade Elec;
         #region Company seed data
         /// <summary>
         /// seed data for the for the Database
@@ -65,13 +65,24 @@ namespace DataLayer.SessionFactory
         }
         #endregion
 
+        #region new Van
+        private void CreateTrade()
+        {
+            Elec = new Trade
+            {
+                Name = "Electrician", Code = "EL", Description = " An electrician"
+            };
+        }
+        #endregion
+
         public List<Company> CreateCompany()
         {
+            CreateTrade();
             CreateUser();
             CreateVehicle();
 
             person.Vehicles.Add(Van);
-
+            person.Trades.Add(Elec);
 
             var Comp1 = new Company
             {
@@ -142,7 +153,7 @@ namespace DataLayer.SessionFactory
 
 
             Comp1.Adresses.Add(adress1);
-            Comp1.Operatrives.Add(person);
+           Comp1.Operatrives.Add(person);
             Comp2.Adresses.Add(adress3);
             Comp3.Adresses.Add(adress2);
             Comp1.Insurances.Add(ins1);

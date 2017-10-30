@@ -21,7 +21,8 @@ namespace DataLayer.Class
         public virtual string Name { get; set; }
         public virtual bool Contractor { get; set; }
         public virtual bool Supplier { get; set; }
-   
+        public virtual bool MainCompany { get; set; }
+
         public virtual Int64 MobilePhone { get; set; }
         public virtual Int64 OfficePhone { get; set; }
 

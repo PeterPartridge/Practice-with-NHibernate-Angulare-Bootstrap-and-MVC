@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SOMTests
 {
     [TestClass]
-    public class UnitTest1
+    public class CompanyTests
     {
         [TestMethod]
         public void TestMethod1()

@@ -20,21 +20,22 @@ namespace DataLayer.SessionFactory
 
         public void CreateDB()
         {
-            var config = new Configuration();
+            // var config = new Configuration();
 
-            config = Fluently.Configure()
-           /*    .Database(
-                MsSqlConfiguration.MsSql2008.ConnectionString(c => c.FromConnectionStringWithKey("Default")).ShowSql())
-                .Mappings(
-                m => m.FluentMappings.AddFromAssemblyOf<CompanyMap>().AddFromAssemblyOf<UserMap>()
-                )*/.BuildConfiguration();
+            var config = Fluently.Configure()
+                 .Database(
+                  MsSqlConfiguration.MsSql2008.ConnectionString(c => c.FromConnectionStringWithKey("Default")).ShowSql())
+                  .Mappings(
+                  m => m.FluentMappings.AddFromAssemblyOf<CompanyMap>().AddFromAssemblyOf<User>().AddFromAssemblyOf<Vehicle>()
+
+                ).BuildConfiguration();
 
 
 
             Console.WriteLine("Database Generated");
             var exporter = new SchemaExport(config);
-       //    exporter.Execute(true, false, true);
-            exporter.Execute(true, true, false);
+         // exporter.Execute(true, false, true);
+           exporter.Execute(true, true, false);
 
             _sessionFactory = config.BuildSessionFactory();
 
@@ -54,7 +55,7 @@ namespace DataLayer.SessionFactory
                        
                     }
 
-                    session.SaveOrUpdate(wg);
+                  //  session.SaveOrUpdate(wg);
 
                     transaction.Commit();
                     session.Flush();
