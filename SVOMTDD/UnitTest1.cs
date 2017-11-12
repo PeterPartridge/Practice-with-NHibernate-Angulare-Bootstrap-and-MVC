@@ -6,6 +6,7 @@ using DataLayer.Mapping;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Cfg;
 using NHibernate;
+using NHibernate.Linq;
 using System.Collections.Generic;
 
 namespace SVOMTDD
@@ -15,7 +16,7 @@ namespace SVOMTDD
     {
         private static ISessionFactory _sessionFactory;
 
-        protected static Configuration BuildQueryFactory()
+        protected static void BuildQueryFactory()
         {
             var config = Fluently.Configure()
              .Database(
@@ -24,22 +25,21 @@ namespace SVOMTDD
               m => m.FluentMappings.AddFromAssemblyOf<CompanyMap>().AddFromAssemblyOf<User>().AddFromAssemblyOf<Vehicle>()
             ).BuildConfiguration();
 
+            
+            _sessionFactory = config.BuildSessionFactory();
 
-            return config;
+           
         }
 
         [TestMethod]
         public void GetSingleCompany()
         {
 
+            BuildQueryFactory();
 
             Company singleCompany = new Company();
 
-            Configuration config = BuildQueryFactory();
-
             var query = "Imagination";
-
-            _sessionFactory = config.BuildSessionFactory();
 
 
             using (ISession session = _sessionFactory.OpenSession())
@@ -60,10 +60,10 @@ namespace SVOMTDD
         [TestMethod]
         public void passingANullIntoASingleSearch()
         {
+            BuildQueryFactory();
 
             Company singleCompany = new Company();
-            Configuration config = BuildQueryFactory();
-            _sessionFactory = config.BuildSessionFactory();
+         
             string query = null;
 
             // null or empty checker
@@ -87,10 +87,11 @@ namespace SVOMTDD
         [TestMethod]
         public void SearchForCompanyContaining()
         {
+            BuildQueryFactory();
+
             IList<Company> singleCompany = new List<Company>();
-            Configuration config = BuildQueryFactory();
-            _sessionFactory = config.BuildSessionFactory();
-            string query = "sup";
+
+            string query = "IMA";
 
             // null or empty checker
             if (!string.IsNullOrEmpty(query))
@@ -99,14 +100,70 @@ namespace SVOMTDD
                 {
                     using (var transaction = session.BeginTransaction())
                     {
-
                         // this will search for
-                        singleCompany = session.QueryOver<T>().WhereRestrictionOn(x => x.Name).IsLike("%" + query + "%").List();
+                        singleCompany = session.QueryOver<Company>().WhereRestrictionOn(x => x.Name).IsInsensitiveLike("%" + query + "%").List();
                     }
                 }
             }
 
-            Assert.AreEqual(1, singleCompany.Count);
+            Assert.AreEqual(3, singleCompany.Count);
+        }
+
+        [TestMethod]
+        public void GetCompanyEmployees()
+        {
+            BuildQueryFactory();
+
+            Company singleCompanyWithEmployees = new Company();
+       
+            Guid query = Guid.Parse("35F97627-B0E3-4204-93FA-A82900E5234C");
+
+            // null or empty checker
+            if (query != null)
+            {
+                using (ISession session = _sessionFactory.OpenSession())
+                {
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        // this will search for
+                        singleCompanyWithEmployees = session.QueryOver<Company>().WhereRestrictionOn(x => x.Id).IsLike(query).Fetch(x => x.Operatrives).Eager.SingleOrDefault();
+                    }
+                }
+            }
+
+            var result = singleCompanyWithEmployees.Operatrives;
+
+            Assert.AreEqual(1,result.Count);
+
+        }
+
+        [TestMethod]
+        public void GetComnpanyWithAllTables()
+        {
+            BuildQueryFactory();
+
+          Company singleCompanyWithEmployees = new Company();
+
+            Guid query = Guid.Parse("35F97627-B0E3-4204-93FA-A82900E5234C");
+
+            // null or empty checker
+            if (query != null)
+            {
+                using (ISession session = _sessionFactory.OpenSession())
+                {
+                    using (var transaction = session.BeginTransaction())
+                    {
+                        // this will search for
+                      
+                    }
+                }
+            }
+
+           
+
+            Assert.AreEqual(1, singleCompanyWithEmployees.Operatrives.Count);
+
+
         }
 
     }
