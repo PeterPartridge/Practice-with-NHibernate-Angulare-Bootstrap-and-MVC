@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVOM", "SVOM\SVOM.csproj", "{5B59AFEA-F84A-4A8E-81A2-0E0CE66DB9AC}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLayer", "BusinessLayer\BusinessLayer.csproj", "{29139CB9-DC8C-4887-9279-7302B26F0C90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOMTests", "SOMTests\SOMTests.csproj", "{5FFED76F-A7D7-47D0-BF9A-0B192D7FD599}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVOMTDD", "SVOMTDD\SVOMTDD.csproj", "{1894FA67-C513-47C4-8AB9-8649ADB1BA95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{29139CB9-DC8C-4887-9279-7302B26F0C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29139CB9-DC8C-4887-9279-7302B26F0C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29139CB9-DC8C-4887-9279-7302B26F0C90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FFED76F-A7D7-47D0-BF9A-0B192D7FD599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FFED76F-A7D7-47D0-BF9A-0B192D7FD599}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FFED76F-A7D7-47D0-BF9A-0B192D7FD599}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FFED76F-A7D7-47D0-BF9A-0B192D7FD599}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1894FA67-C513-47C4-8AB9-8649ADB1BA95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1894FA67-C513-47C4-8AB9-8649ADB1BA95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1894FA67-C513-47C4-8AB9-8649ADB1BA95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1894FA67-C513-47C4-8AB9-8649ADB1BA95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

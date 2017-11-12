@@ -32,10 +32,11 @@ namespace DataLayer.SessionFactory
 
 
 
-            Console.WriteLine("Database Generated");
             var exporter = new SchemaExport(config);
          // exporter.Execute(true, false, true);
            exporter.Execute(true, true, false);
+
+            Console.WriteLine("Database Generated");
 
             _sessionFactory = config.BuildSessionFactory();
 
@@ -55,7 +56,7 @@ namespace DataLayer.SessionFactory
                        
                     }
 
-                  //  session.SaveOrUpdate(wg);
+                    session.SaveOrUpdate(wg);
 
                     transaction.Commit();
                     session.Flush();
