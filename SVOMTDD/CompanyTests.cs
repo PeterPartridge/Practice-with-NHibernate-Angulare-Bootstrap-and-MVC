@@ -253,24 +253,25 @@ namespace SVOMTDD
         [TestMethod]
         public void addInsurance()
         {
-
+            var singleCompany = new Company();
             BuildQueryFactory();
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                //   Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
+                singleCompany = session.QueryOver<Company>().Where(x => x.Name == "Imagination").SingleOrDefault();
+                CorprateInsurance CIns = new CorprateInsurance() { Name = "Asus", InsurancePolicynumber = "15544878663fghG665", OfficePhone = 0152565685 };
+                singleCompany.Insurances.Add(null);
+            }
+          string update = UpdateSingleRecordWithoutRecordCheck(singleCompany);
 
-            Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
-            
-            CorprateInsurance CIns = new CorprateInsurance() { Name = "Grab it and Run", InsurancePolicynumber = "125FFG665", OfficePhone = 0152565685 };
-            singleCompany.Insurances.Add(CIns);
-
-            UpdateSingleRecord(singleCompany);
-
-            Assert.AreEqual("MarksParts", singleCompany.Name);
+            Assert.AreEqual("Error Null or empty Value passed to save method", update);
 
         }
 
-        private static void UpdateSingleRecord(object SingleRecord)
+        private static string UpdateSingleRecordWithoutRecordCheck(object SingleRecord)
         {
             BuildQueryFactory();
-
+            string CompletionString = "";
             using (ISession session = _sessionFactory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
@@ -279,12 +280,22 @@ namespace SVOMTDD
                    
                     session.SaveOrUpdate(SingleRecord);
 
-
-                    transaction.Commit();
+                    try
+                    {
+                        transaction.Commit();
+                        CompletionString = "Completed";
+                    }
+                    catch(StaleStateException ex)
+                    {
+                        CompletionString = "Error Null or empty Value passed to save method";
+                        //er will be used in an error log via email or txt document.
+                    }
                     session.Flush();
                 }
                
             }
+
+            return CompletionString;
         }
 
     }
