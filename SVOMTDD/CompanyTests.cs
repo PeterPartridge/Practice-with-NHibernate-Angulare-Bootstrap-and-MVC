@@ -111,31 +111,40 @@ namespace SVOMTDD
         }
 
         [TestMethod]
-        public void GetCompanyEmployees()
+        public void GetCompanyusingGenerics()
         {
-            BuildQueryFactory();
+
 
             Company singleCompanyWithEmployees = new Company();
 
             Guid query = Guid.Parse("35F97627-B0E3-4204-93FA-A82900E5234C");
 
-            // null or empty checker
-            if (query != null)
+            singleCompanyWithEmployees = GetSingleRecord<Company>("Id", query);
+
+            var result = singleCompanyWithEmployees;
+
+            Assert.AreEqual("Imagination", result.Name);
+
+        }
+
+        private static T GetSingleRecord<T>(string propertyName, object searchParam)
+        {
+            BuildQueryFactory();
+
+            object singleItem;
+
+            using (ISession session = _sessionFactory.OpenSession())
             {
-                using (ISession session = _sessionFactory.OpenSession())
+                using (var transaction = session.BeginTransaction())
                 {
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        // this will search for
-                        singleCompanyWithEmployees = session.QueryOver<Company>().WhereRestrictionOn(x => x.Id).IsLike(query).Fetch(x => x.Operatrives).Eager.SingleOrDefault();
-                    }
+                    // this will search for
+                    singleItem = session.CreateCriteria(typeof(T)).Add(Restrictions.Eq(propertyName, searchParam)).UniqueResult();
                 }
+
             }
 
-            var result = singleCompanyWithEmployees.Operatrives;
 
-            Assert.AreEqual(1, result.Count);
-
+            return (T)singleItem;
         }
 
         [TestMethod]
@@ -143,7 +152,7 @@ namespace SVOMTDD
         {
 
             BuildQueryFactory();
- 
+
             Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
             Company CompanyReturn;
 
@@ -160,7 +169,7 @@ namespace SVOMTDD
                         transaction.Commit();
 
                     }
-                    
+
                     session.Flush();
                 }
             }
@@ -175,20 +184,19 @@ namespace SVOMTDD
 
 
             // when passing the property this will be passed as an object.
-            var searchparam = "Bob";
-            string propertyName = "Name";
+            long searchparam = 1525237322;
+            string propertyName = "OfficePhone";
 
             var result = GetGenericItem<Company>(propertyName, searchparam);
 
-
-            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(4, result.Count);
         }
 
-        protected static IList<T> GetGenericItem <T>(string propertyName, object searchparam)
+        protected static IList<T> GetGenericItem<T>(string propertyName, object searchparam)
         {
             BuildQueryFactory();
 
-           IList<T> CompanyListResult = new List<T>();
+            IList<T> CompanyListResult = new List<T>();
             using (ISession session = _sessionFactory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
@@ -208,6 +216,38 @@ namespace SVOMTDD
 
             return CompanyListResult;
 
+        }
+
+
+        [TestMethod]
+        public void GetsingleRecordandOneExtraResultUsingGenerics()
+        {
+            Guid query = Guid.Parse("35F97627-B0E3-4204-93FA-A82900E5234C");
+
+            var result = GetSingleRecordAndOneRecord<Company>("Id", query, "Operatrives");
+
+
+            Assert.AreEqual(1, result.Operatrives.Count);
+        }
+
+        private static T GetSingleRecordAndOneRecord<T>(string propertyName, object searchParam, string SingleFetchProperty)
+        {
+            BuildQueryFactory();
+
+            object singleItem;
+
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    // this will search for
+                    singleItem = session.CreateCriteria(typeof(T)).Add(Restrictions.Eq(propertyName, searchParam)).SetFetchMode(SingleFetchProperty, FetchMode.Eager) .UniqueResult();
+                }
+
+            }
+
+
+            return (T)singleItem;
         }
 
 
