@@ -8,6 +8,7 @@ using FluentNHibernate.Cfg;
 using NHibernate;
 using NHibernate.Linq;
 using System.Collections.Generic;
+using NHibernate.Criterion;
 
 namespace SVOMTDD
 {
@@ -25,10 +26,10 @@ namespace SVOMTDD
               m => m.FluentMappings.AddFromAssemblyOf<CompanyMap>().AddFromAssemblyOf<User>().AddFromAssemblyOf<Vehicle>()
             ).BuildConfiguration();
 
-            
+
             _sessionFactory = config.BuildSessionFactory();
 
-           
+
         }
 
         [TestMethod]
@@ -63,7 +64,7 @@ namespace SVOMTDD
             BuildQueryFactory();
 
             Company singleCompany = new Company();
-         
+
             string query = null;
 
             // null or empty checker
@@ -142,25 +143,73 @@ namespace SVOMTDD
         {
 
             BuildQueryFactory();
-
-            Company singleCompany = new Company() { Name = "Bobs Fencing", Supplier = true, MobilePhone = 07783000343, OfficePhone = 01525457125 };
-            Company CompanyReturn = new Company();
+ 
+            Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
+            Company CompanyReturn;
 
             using (ISession session = _sessionFactory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
+                    CompanyReturn = session.QueryOver<Company>().WhereRestrictionOn(x => x.Name).IsLike(singleCompany.Name).SingleOrDefault();
+                    // this is if we know exactly what we are looking for but is not checking if the company already exists.
+                    if (CompanyReturn == null)
+                    {
+                        session.SaveOrUpdate(singleCompany);
+                        CompanyReturn = singleCompany;
+                        transaction.Commit();
 
-                    // this is if we know exactly what we are looking for
-                    session.SaveOrUpdate(singleCompany);
-                    CompanyReturn = session.QueryOver<Company>().WhereRestrictionOn(x => x.Name).IsLike("Bobs Fencing").SingleOrDefault();
-                    transaction.Commit();
+                    }
+                    
                     session.Flush();
                 }
             }
 
-            Assert.AreEqual("Bobs Fencing", CompanyReturn.Name);
+            Assert.AreEqual("MarksParts", CompanyReturn.Name);
         }
+
+        [TestMethod]
+        public void SearchUsingOneProperty()
+        {
+
+
+
+            // when passing the property this will be passed as an object.
+            var searchparam = "Bob";
+            string propertyName = "Name";
+
+            var result = GetGenericItem<Company>(propertyName, searchparam);
+
+
+            Assert.AreEqual(1, result.Count);
+        }
+
+        protected static IList<T> GetGenericItem <T>(string propertyName, object searchparam)
+        {
+            BuildQueryFactory();
+
+           IList<T> CompanyListResult = new List<T>();
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    if (searchparam is string)
+                    {
+                        searchparam = "%" + searchparam + "%";
+
+                        CompanyListResult = session.CreateCriteria(typeof(T)).Add(Restrictions.InsensitiveLike(propertyName, searchparam)).List<T>();
+                    }
+                    else
+                    {
+                        CompanyListResult = session.CreateCriteria(typeof(T)).Add(Restrictions.Gt(propertyName, searchparam) || Restrictions.Eq(propertyName, searchparam)).List<T>();
+                    }
+                }
+            }
+
+            return CompanyListResult;
+
+        }
+
 
     }
 }
