@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace SVOMTDD
 {
     [TestClass]
-    public class UnitTest1
+    public class CompanyTests
     {
         private static ISessionFactory _sessionFactory;
 
@@ -115,7 +115,7 @@ namespace SVOMTDD
             BuildQueryFactory();
 
             Company singleCompanyWithEmployees = new Company();
-       
+
             Guid query = Guid.Parse("35F97627-B0E3-4204-93FA-A82900E5234C");
 
             // null or empty checker
@@ -133,37 +133,33 @@ namespace SVOMTDD
 
             var result = singleCompanyWithEmployees.Operatrives;
 
-            Assert.AreEqual(1,result.Count);
+            Assert.AreEqual(1, result.Count);
 
         }
 
         [TestMethod]
-        public void GetComnpanyWithAllTables()
+        public void AddASingleCompanyAndGetTheCompany()
         {
+
             BuildQueryFactory();
 
-          Company singleCompanyWithEmployees = new Company();
+            Company singleCompany = new Company() { Name = "Bobs Fencing", Supplier = true, MobilePhone = 07783000343, OfficePhone = 01525457125 };
+            Company CompanyReturn = new Company();
 
-            Guid query = Guid.Parse("35F97627-B0E3-4204-93FA-A82900E5234C");
-
-            // null or empty checker
-            if (query != null)
+            using (ISession session = _sessionFactory.OpenSession())
             {
-                using (ISession session = _sessionFactory.OpenSession())
+                using (var transaction = session.BeginTransaction())
                 {
-                    using (var transaction = session.BeginTransaction())
-                    {
-                        // this will search for
-                      
-                    }
+
+                    // this is if we know exactly what we are looking for
+                    session.SaveOrUpdate(singleCompany);
+                    CompanyReturn = session.QueryOver<Company>().WhereRestrictionOn(x => x.Name).IsLike("Bobs Fencing").SingleOrDefault();
+                    transaction.Commit();
+                    session.Flush();
                 }
             }
 
-           
-
-            Assert.AreEqual(1, singleCompanyWithEmployees.Operatrives.Count);
-
-
+            Assert.AreEqual("Bobs Fencing", CompanyReturn.Name);
         }
 
     }
