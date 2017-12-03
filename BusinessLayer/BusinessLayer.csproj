@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompanyCalls\CorperateInsurance.cs" />
     <Compile Include="Factories\UserCompanyVehicleFactory.cs" />
     <Compile Include="GenericDBCalls\GetListOfObjects.cs" />
     <Compile Include="GenericDBCalls\GetSingleObject.cs" />

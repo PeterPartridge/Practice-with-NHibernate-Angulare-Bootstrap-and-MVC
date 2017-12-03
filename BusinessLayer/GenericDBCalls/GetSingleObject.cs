@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BusinessLayer.GenericDBCalls
 {
     public class GetSingleObject : UserCompanyVehicleFactory
@@ -18,7 +19,7 @@ namespace BusinessLayer.GenericDBCalls
         /// <typeparam name="T"></typeparam>
         /// <param name="propertyName"></param>
         /// <param name="searchParam"></param>
-        /// <returns></returns>
+        /// <returns>Object of T</returns>
         public T GetSingleRecord<T>(string propertyName, object searchParam)
         {
             BuildCompanyUserVehicleQueryFactory();

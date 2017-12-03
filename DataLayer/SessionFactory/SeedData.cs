@@ -153,7 +153,7 @@ namespace DataLayer.SessionFactory
 
 
             Comp1.Adresses.Add(adress1);
-           Comp1.Operatrives.Add(person);
+           Comp1.Operatives.Add(person);
             Comp2.Adresses.Add(adress3);
             Comp3.Adresses.Add(adress2);
             Comp1.Insurances.Add(ins1);

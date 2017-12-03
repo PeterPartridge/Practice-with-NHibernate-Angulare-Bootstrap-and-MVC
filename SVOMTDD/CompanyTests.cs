@@ -227,7 +227,7 @@ namespace SVOMTDD
             var result = GetSingleRecordAndOneRecord<Company>("Id", query, "Operatrives");
 
 
-            Assert.AreEqual(1, result.Operatrives.Count);
+            Assert.AreEqual(1, result.Operatives.Count);
         }
 
         private static T GetSingleRecordAndOneRecord<T>(string propertyName, object searchParam, string SingleFetchProperty)
@@ -250,6 +250,42 @@ namespace SVOMTDD
             return (T)singleItem;
         }
 
+        [TestMethod]
+        public void addInsurance()
+        {
+
+            BuildQueryFactory();
+
+            Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
+            
+            CorprateInsurance CIns = new CorprateInsurance() { Name = "Grab it and Run", InsurancePolicynumber = "125FFG665", OfficePhone = 0152565685 };
+            singleCompany.Insurances.Add(CIns);
+
+            UpdateSingleRecord(singleCompany);
+
+            Assert.AreEqual("MarksParts", singleCompany.Name);
+
+        }
+
+        private static void UpdateSingleRecord(object SingleRecord)
+        {
+            BuildQueryFactory();
+
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    // this will search for
+                   
+                    session.SaveOrUpdate(SingleRecord);
+
+
+                    transaction.Commit();
+                    session.Flush();
+                }
+               
+            }
+        }
 
     }
 }
