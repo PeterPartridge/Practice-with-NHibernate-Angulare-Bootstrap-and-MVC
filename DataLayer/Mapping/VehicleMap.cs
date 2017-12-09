@@ -37,8 +37,8 @@ namespace DataLayer.Mapping
             Map(x => x.ActualYearsOfService);
             Map(x => x.MeasurmentUnit);
 
-
-            References<User>(x => x.Operatives);
+            HasMany<VehicleInsurance>(x => x.Insurances);
+            References<User>(x => x. Employees);
 
          }
 

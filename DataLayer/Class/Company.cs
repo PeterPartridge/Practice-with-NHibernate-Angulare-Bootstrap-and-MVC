@@ -16,7 +16,7 @@ namespace DataLayer.Class
             IsActive = false;
             Adresses = new List<CorprateAdress>();
             Insurances = new List<CorprateInsurance>();
-            Operatives = new List<User>();
+             Employees = new List<User>();
 
 
         }
@@ -32,7 +32,7 @@ namespace DataLayer.Class
 
         public virtual ICollection<CorprateAdress> Adresses { get; set; }
         public virtual ICollection<CorprateInsurance> Insurances { get; set; }
-        public virtual ICollection<User> Operatives { get; set; }
+        public virtual ICollection<User> Employees { get; set; }
         public virtual ICollection<Pricing> Prices { get; set; }
         public virtual ICollection<Purchase> Pruchases { get; set; }
         

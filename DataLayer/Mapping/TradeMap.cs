@@ -17,7 +17,7 @@ namespace DataLayer.Mapping
             Map(x => x.Code);
             Map(x => x.Name);
 
-            HasManyToMany<User>(x => x.Operatives).Table("TradeAndOperative") ;
+            HasManyToMany<User>(x => x. Employees).Table("TradeAndOperative") ;
         }
     }
 }

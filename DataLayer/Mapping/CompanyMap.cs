@@ -23,7 +23,7 @@ namespace DataLayer.Mapping
             
             HasMany<CorprateAdress>(x => x.Adresses).Table("CorprateAdress").Cascade.SaveUpdate();
             HasMany<CorprateInsurance>(x => x.Insurances).Table("CorprateInsurance").Cascade.SaveUpdate();
-            HasMany<User>(x => x.Operatives).Table("Operative").Cascade.SaveUpdate();
+            HasMany<User>(x => x. Employees).Table("Operative").Cascade.SaveUpdate();
             HasMany<Pricing>(x => x.Prices).Table("Prices").Cascade.SaveUpdate();
             HasMany<Purchase>(x => x.Pruchases).Table("Purchases").Cascade.None();
         }

@@ -36,7 +36,7 @@ namespace DataLayer.Class
 
         public virtual string ReasonForCancelation { get; set; }
 
-        public virtual ICollection<User> Operatives { get; set; }
+        public virtual ICollection<User>  Employees { get; set; }
 
         public virtual ICollection<CustomerAddress> Customers { get; set; }
 

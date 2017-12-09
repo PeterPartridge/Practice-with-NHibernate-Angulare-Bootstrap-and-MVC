@@ -34,8 +34,8 @@ namespace SVOM
             }
             else if (answer == "GCS")
             {
-                var recordExtra = GSO.GetSingleRecordAndFetchExtraRecord<Company>("Name", "Imagination", "Operatives");
-                User CRecord = recordExtra.Operatives.Where(x => x.Title == "Mr").FirstOrDefault();
+                var recordExtra = GSO.GetSingleRecordAndFetchExtraRecord<Company>("Name", "Imagination", " Employees");
+                User CRecord = recordExtra. Employees.Where(x => x.Title == "Mr").FirstOrDefault();
                 Console.WriteLine(CRecord.FirstName);
             }
             else if (answer == "GUS")

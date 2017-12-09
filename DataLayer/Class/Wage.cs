@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Class
 {/// <summary>
-/// This is the table for wages for all operatives.
+/// This is the table for wages for all  Employees.
 ///  
 /// </summary>
     public class Wage
     {
         public Wage()
         {
-            Operatives = new List<User>();
+             Employees = new List<User>();
         }
 
         public virtual Guid Id { get; set; }
@@ -27,7 +27,7 @@ namespace DataLayer.Class
         public virtual bool OverTimeRate { get; set; }
 
         //One to Many
-        public virtual ICollection<User> Operatives { get; set; }
+        public virtual ICollection<User>  Employees { get; set; }
 
     }
 }

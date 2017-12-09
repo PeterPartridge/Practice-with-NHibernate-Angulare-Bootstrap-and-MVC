@@ -22,7 +22,7 @@ namespace DataLayer.Mapping
             Map(x => x.Salery);
             Map(x => x.YearlyRate);
 
-            HasMany<User>(x => x.Operatives).Cascade.SaveUpdate();
+            HasMany<User>(x => x. Employees).Cascade.SaveUpdate();
 
 
         }

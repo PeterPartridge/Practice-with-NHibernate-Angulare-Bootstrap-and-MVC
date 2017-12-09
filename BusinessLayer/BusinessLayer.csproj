@@ -63,8 +63,10 @@
   <ItemGroup>
     <Compile Include="CompanyCalls\CorperateInsurance.cs" />
     <Compile Include="Factories\UserCompanyVehicleFactory.cs" />
+    <Compile Include="GenericDBCalls\DeleteSingleObject.cs" />
     <Compile Include="GenericDBCalls\GetListOfObjects.cs" />
     <Compile Include="GenericDBCalls\GetSingleObject.cs" />
+    <Compile Include="GenericDBCalls\ParentChild.cs" />
     <Compile Include="GenericDBCalls\UpdateSingleObject.cs" />
     <Compile Include="InitaliseDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

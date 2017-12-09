@@ -11,7 +11,7 @@ namespace DataLayer.Class
     /// This will be the database that will be a refrance for the following tables:
     /// Vehicle Repairs
     /// Accidents
-    /// Operatives
+    ///  Employees
     /// </summary>
     public class Vehicle
     {
@@ -53,7 +53,7 @@ namespace DataLayer.Class
         public virtual int? ActualYearsOfService { get; set; }
         //Many to One relationship
         // one operative is linked to many vehicles.
-        public virtual User Operatives { get; set; }
+        public virtual User  Employees { get; set; }
 
         //to start other tables will not exisit for now.
 

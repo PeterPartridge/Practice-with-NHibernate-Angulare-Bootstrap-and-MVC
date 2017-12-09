@@ -13,6 +13,6 @@ namespace DataLayer.Class
         public virtual string Description { get; set; }
         public virtual string Code { get; set; }
 
-        public virtual ICollection<User> Operatives { get; set; }
+        public virtual ICollection<User>  Employees { get; set; }
     }
 }

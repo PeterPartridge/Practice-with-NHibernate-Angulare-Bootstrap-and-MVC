@@ -24,7 +24,7 @@ namespace DataLayer.Mapping
             Map(x => x.ReasonForCancelation);
 
 
-            HasMany<User>(x => x.Operatives).Cascade.SaveUpdate();
+            HasMany<User>(x => x.Employees).Cascade.SaveUpdate();
             HasMany<CustomerAddress>(x => x.Customers).Table("Customers").Cascade.None();
             HasMany<MaterialUsed>(x => x.MaterialsUsed).Table("MaterialsUsed").Cascade.All();
             HasMany<WorkTime>(x => x.Times).Table("Times").Cascade.All();

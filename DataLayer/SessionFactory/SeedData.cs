@@ -153,7 +153,7 @@ namespace DataLayer.SessionFactory
 
 
             Comp1.Adresses.Add(adress1);
-           Comp1.Operatives.Add(person);
+           Comp1. Employees.Add(person);
             Comp2.Adresses.Add(adress3);
             Comp3.Adresses.Add(adress2);
             Comp1.Insurances.Add(ins1);
@@ -182,7 +182,7 @@ namespace DataLayer.SessionFactory
                 HourlyRate = 2.33f,
                 
             };
-            wg1.Operatives.Add(person);
+            wg1. Employees.Add(person);
             return wg1;
 
         }

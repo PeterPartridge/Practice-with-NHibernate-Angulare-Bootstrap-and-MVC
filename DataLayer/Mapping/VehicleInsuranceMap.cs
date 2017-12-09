@@ -22,7 +22,7 @@ namespace DataLayer.Mapping
 
             References<Vehicle>(x => x.Vehicles);
 
-            HasMany<VehicleInsurance>(x => x.Accidents);
+            HasMany<VehicleAccident>(x => x.Accidents);
         }
     }
 }

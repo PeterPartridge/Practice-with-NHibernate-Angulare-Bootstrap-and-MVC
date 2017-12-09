@@ -41,7 +41,7 @@ namespace DataLayer.Class
         public virtual string email { get; set; }
         public virtual string TaxCode { get; set; }
        
-        // Many Operatives to one Company
+        // Many  Employees to one Company
         public virtual Company Companies { get; set; }
 
         //one operative can have many vehicles.

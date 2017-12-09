@@ -192,7 +192,7 @@ namespace SVOMTDD
             Assert.AreEqual(4, result.Count);
         }
 
-        protected static IList<T> GetGenericItem<T>(string propertyName, object searchparam)
+        protected static IList<T> GetGenericItem<T>(string propertyName, object searchparam, bool FindAll = true)
         {
             BuildQueryFactory();
 
@@ -203,7 +203,7 @@ namespace SVOMTDD
                 {
                     if (searchparam is string)
                     {
-                        searchparam = "%" + searchparam + "%";
+                        searchparam = FindAll == true ? "%" + searchparam + "%" : searchparam;
 
                         CompanyListResult = session.CreateCriteria(typeof(T)).Add(Restrictions.InsensitiveLike(propertyName, searchparam)).List<T>();
                     }
@@ -227,7 +227,7 @@ namespace SVOMTDD
             var result = GetSingleRecordAndOneRecord<Company>("Id", query, "Operatrives");
 
 
-            Assert.AreEqual(1, result.Operatives.Count);
+            Assert.AreEqual(1, result. Employees.Count);
         }
 
         private static T GetSingleRecordAndOneRecord<T>(string propertyName, object searchParam, string SingleFetchProperty)
@@ -241,7 +241,7 @@ namespace SVOMTDD
                 using (var transaction = session.BeginTransaction())
                 {
                     // this will search for
-                    singleItem = session.CreateCriteria(typeof(T)).Add(Restrictions.Eq(propertyName, searchParam)).SetFetchMode(SingleFetchProperty, FetchMode.Eager) .UniqueResult();
+                    singleItem = session.CreateCriteria(typeof(T)).Add(Restrictions.Eq(propertyName, searchParam)).SetFetchMode(SingleFetchProperty, FetchMode.Eager).UniqueResult();
                 }
 
             }
@@ -260,11 +260,93 @@ namespace SVOMTDD
                 //   Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
                 singleCompany = session.QueryOver<Company>().Where(x => x.Name == "Imagination").SingleOrDefault();
                 CorprateInsurance CIns = new CorprateInsurance() { Name = "Asus", InsurancePolicynumber = "15544878663fghG665", OfficePhone = 0152565685 };
-                singleCompany.Insurances.Add(null);
+               singleCompany.Insurances.Add(CIns);
+
+               
             }
-          string update = UpdateSingleRecordWithoutRecordCheck(singleCompany);
+            string update = UpdateSingleRecordWithoutRecordCheck(singleCompany);
 
             Assert.AreEqual("Error Null or empty Value passed to save method", update);
+
+        }
+
+        [TestMethod]
+        public void addPersonAndVehicle()
+        {
+            var singleCompany = new Company();
+            BuildQueryFactory();
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                //   Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
+                singleCompany = session.QueryOver<Company>().Where(x => x.Name == "Imagination").SingleOrDefault();
+                User CIns = new User() { FirstName = "Martin", LastName = "Davies", OfficePhone = 01908564525,
+                    DateOfBirth = DateTime.Parse("02/01/2001"), email = "Martin.Davies@Imagination.org.uk",
+                    EmploymentDate = DateTime.Parse("2017/12/05"), MiddleName ="Jules", PreferredName ="Marty"
+                };
+
+                Vehicle veh = new Vehicle()
+                {
+                    Make = "Ford",
+                    Model = "Transit",
+                    CurrentValue = 2617.23f,
+                    DocumentLocation = "At head office",
+                    DateOfPurchase = DateTime.Now,
+                    ExpectedYearsOfService = 25,
+                    Milage = 4560,
+                    NextMOTDate = DateTime.Now.AddYears(1),
+                    LicensePlate = "TF09 JUY"
+                };
+
+                CIns.Vehicles.Add(veh);
+                singleCompany.Employees.Add(CIns);
+            }
+           // string update = UpdateSingleRecordandChildRecords(singleCompany);
+
+        //    Assert.AreEqual("Completed", update);
+
+        }
+         [TestMethod]
+        public void addWage()
+        {
+           
+            BuildQueryFactory();
+
+            Wage newWage = new Wage() { Code = "MG01", Salery = true, YearlyRate = 30000 };
+            User singlePerson;
+
+
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                singlePerson = session.QueryOver<User>().Where(x => x.Id == Guid.Parse("520B4198-CE5D-4A24-BFD3-A8440122C572")).SingleOrDefault();
+
+                singlePerson.Wages = newWage;
+
+                
+
+
+            }
+            var update = UpdateSingleRecordandChildRecords(newWage, singlePerson);
+             
+
+            Assert.AreEqual("Completed", update);
+
+        }
+
+        [TestMethod]
+        public void addCompanyWithChck()
+        {
+            var singleCompany = new Company();
+            BuildQueryFactory();
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                //singleCompany = new Company() { Name = "MarksBurgers", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
+                singleCompany = session.QueryOver<Company>().Where(x => x.Name == "Imagination").SingleOrDefault();
+
+            }
+            string update = UpdateSingleRecordWithRecordCheck<Company>("Name", singleCompany.Name, singleCompany);
+
+
+            Assert.AreEqual("Completed", update);
 
         }
 
@@ -272,12 +354,15 @@ namespace SVOMTDD
         {
             BuildQueryFactory();
             string CompletionString = "";
+
+            var RecordCheck = GetGenericItem<Company>("Name", SingleRecord);
+
             using (ISession session = _sessionFactory.OpenSession())
             {
                 using (var transaction = session.BeginTransaction())
                 {
                     // this will search for
-                   
+
                     session.SaveOrUpdate(SingleRecord);
 
                     try
@@ -285,18 +370,147 @@ namespace SVOMTDD
                         transaction.Commit();
                         CompletionString = "Completed";
                     }
-                    catch(StaleStateException ex)
+                    catch (StaleStateException ex)
                     {
                         CompletionString = "Error Null or empty Value passed to save method";
                         //er will be used in an error log via email or txt document.
                     }
                     session.Flush();
                 }
-               
+
             }
 
             return CompletionString;
         }
 
+        private static string UpdateSingleRecordWithRecordCheck<T>(string SearchProp, object SingleRecord, T RecordToSave)
+        {
+            BuildQueryFactory();
+            string CompletionString = "";
+
+            IList<T> RecordCheck = GetGenericItem<T>(SearchProp, SingleRecord);
+
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    // this will search for
+                    if (!RecordCheck.Equals(RecordToSave))
+                    {
+                        session.SaveAsync(SingleRecord);
+
+                        try
+                        {
+                            transaction.Commit();
+                            CompletionString = "Completed";
+                        }
+
+                        catch (StaleStateException ex)
+                        {
+                            CompletionString = "Error Null or empty Value passed to save method";
+                            //er will be used in an error log via email or txt document.
+                        }
+
+                    }
+                    else
+                    {
+                        CompletionString = "This record already exists on the system.";
+                    }
+                    session.Flush();
+                }
+
+            }
+
+            return CompletionString;
+        }
+
+        private static string UpdateSingleRecordandChildRecords(object ParentRecord, object ChildRecord)
+        {
+
+            BuildQueryFactory();
+            string CompletionString = "";
+
+           using (ISession session = _sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    // this will search for
+
+                    session.SaveOrUpdate(ParentRecord);
+                    session.SaveOrUpdate(ChildRecord);
+                    try
+                    {
+                        transaction.Commit();
+                        CompletionString = "Completed";
+                    }
+                    catch (StaleStateException ex)
+                    {
+                        CompletionString = "Error Null or empty Value passed to save method";
+                        //er will be used in an error log via email or txt document.
+                    }
+                    session.Flush();
+                }
+
+            }
+
+            return CompletionString;
+
+
+
+        }
+
+
+
+        [TestMethod]
+        public void DeleteSingleRecord()
+        {
+            IList<Company> singleCompany = new List<Company>();
+            BuildQueryFactory();
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                //   Company singleCompany = new Company() { Name = "MarksParts", Supplier = true, MobilePhone = 0778304453, OfficePhone = 01908457125 };
+                singleCompany = session.QueryOver<Company>().Where(x => x.Name == "MarksParts").List<Company>();
+            }
+
+         var update = DeleteSingleRecord(singleCompany[1]);
+
+            Assert.AreEqual("Completed", update);
+        }
+
+
+
+        private static string DeleteSingleRecord(object ParentRecord)
+        {
+
+            BuildQueryFactory();
+            string CompletionString = "";
+
+            using (ISession session = _sessionFactory.OpenSession())
+            {
+                using (var transaction = session.BeginTransaction())
+                {
+                    // this will search for
+
+                    session.Delete(ParentRecord);
+                                       try
+                    {
+                        transaction.Commit();
+                        CompletionString = "Completed";
+                    }
+                    catch (StaleStateException ex)
+                    {
+                        CompletionString = "Error Null or empty Value passed to save method";
+                        //er will be used in an error log via email or txt document.
+                    }
+                    session.Flush();
+                }
+
+            }
+
+            return CompletionString;
+
+
+
+        }
     }
 }
