@@ -13,9 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVOMTDD", "SVOMTDD\SVOMTDD.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationLayer", "CommunicationLayer\CommunicationLayer.csproj", "{06A25D49-2A9B-4573-B0A4-8E514564B092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayer", "UILayer\UILayer.csproj", "{D37DA4CF-4159-43D2-AF7F-3EEE937958CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayer.Tests", "UILayer.Tests\UILayer.Tests.csproj", "{C247D715-5138-4C00-94BD-3C44A3693FE1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C897D270-24A3-4E74-A590-9DFA8E4DDFF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,17 +41,12 @@ Global
 		{06A25D49-2A9B-4573-B0A4-8E514564B092}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06A25D49-2A9B-4573-B0A4-8E514564B092}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06A25D49-2A9B-4573-B0A4-8E514564B092}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D37DA4CF-4159-43D2-AF7F-3EEE937958CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D37DA4CF-4159-43D2-AF7F-3EEE937958CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D37DA4CF-4159-43D2-AF7F-3EEE937958CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D37DA4CF-4159-43D2-AF7F-3EEE937958CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C247D715-5138-4C00-94BD-3C44A3693FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C247D715-5138-4C00-94BD-3C44A3693FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C247D715-5138-4C00-94BD-3C44A3693FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C247D715-5138-4C00-94BD-3C44A3693FE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1894FA67-C513-47C4-8AB9-8649ADB1BA95} = {C897D270-24A3-4E74-A590-9DFA8E4DDFF1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6D1BDB70-CD83-46EF-8F68-FE749A1AE52D}
