@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,7 +15,7 @@ namespace DataLayer.Class
     /// Job's
     /// </summary>
 
-    public class User
+    public class User : IUser<Guid>
     {
         public User()
         {
@@ -27,6 +29,7 @@ namespace DataLayer.Class
          }
 
         public virtual Guid Id { get; set; }
+        public virtual string UserName { get; set; }
         public virtual string Title { get; set; }
         public virtual string FirstName { get; set; }
         public virtual string MiddleName { get; set; }
@@ -40,7 +43,7 @@ namespace DataLayer.Class
         public virtual Int64? OfficePhone { get; set; }
         public virtual string email { get; set; }
         public virtual string TaxCode { get; set; }
-       
+        public string Password { get; set; }
         // Many  Employees to one Company
         public virtual Company Companies { get; set; }
 
@@ -55,7 +58,7 @@ namespace DataLayer.Class
         public virtual ICollection<Trade> Trades { get; set; }
 
         public virtual ICollection<WorkOrder> Works { get; set; }
-
+        
         /*
        
      

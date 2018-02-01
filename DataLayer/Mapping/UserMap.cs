@@ -12,7 +12,8 @@ namespace DataLayer.Mapping
     {
         public UserMap()
         {
-            Id(x => x.Id);
+            Id(x => x.Id).GeneratedBy.Identity();
+            Map(x => x.UserName).Not.Nullable();
             Map(x => x.Title);
             Map(x => x.FirstName);
             Map(x => x.LastName);
@@ -26,6 +27,7 @@ namespace DataLayer.Mapping
             Map(x => x.LeavingDate);
             Map(x => x.email);
             Map(x => x.TaxCode);
+            Map(x => x.Password).Not.Nullable();
 
             References<Company>(x => x.Companies);
 
