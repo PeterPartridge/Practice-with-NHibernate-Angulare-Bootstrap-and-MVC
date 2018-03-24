@@ -12,8 +12,8 @@ namespace DataLayer.Mapping
     {
         public UserMap()
         {
-            Id(x => x.Id).GeneratedBy.Identity();
-            Map(x => x.UserName).Not.Nullable();
+           // Id(x => x.Id).GeneratedBy.Identity();
+          //  Map(x => x.UserName).Not.Nullable();
             Map(x => x.Title);
             Map(x => x.FirstName);
             Map(x => x.LastName);

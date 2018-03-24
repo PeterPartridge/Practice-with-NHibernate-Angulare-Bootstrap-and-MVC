@@ -1,4 +1,4 @@
-﻿using DataLayer.Class;
+﻿/*using CoreDataLayer.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,3 +57,4 @@ namespace SVOM
         }
     }
 }
+*/
